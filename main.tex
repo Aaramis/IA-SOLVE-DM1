@@ -85,15 +85,15 @@ comment le transformer pour qu\textquoteright il permette de trouver un plus lon
 
 1. Que se passe-t-il si on n\textquoteright utilise pas de fonction heuristique ? \\
 
-Si on n\textquoteright utilise pas de fonction heuristique, On a un risque de ne trouver aucun chemin jusqu'au nœud objectif et de boucler infiniement.\\ 
+Si on n\textquoteright utilise pas de fonction heuristique, on a un risque de ne trouver aucun chemin jusqu\textquoteright au nœud objectif et de boucler infiniement.\\ 
 
 \tab 2. Quelle doit ${\hat{e}}$tre la propri\'et\'e d\textquoteright une fonction heuristique pour que le chemin retourn\'e soit un plus long chemin ? \\
 
-La fonction heuristique doit nécessaire être admissible pour trouver un chemin valide. \\
+La fonction heuristique doit n\'ecessairemet  ${\hat{e}}$tre admissible pour trouver un chemin valide. \\
 
 \tab 3. Donner l\textquoteright algorithme retournant un plus long chemin. \\
 
-Pour chaque tour, on choisit dans notre liste ouverte le nœud n donc la fonction f(n) est la plus co${\hat{u}}$teuse et dont il existe au moins un nœuds voisins pouvant encore ${\hat{e}}$tre d\'evelopp\'es jusqu\textquoteright \`a atteindre l'objectif. \\
+Pour chaque tour, on choisit dans notre liste ouverte le nœud n donc la fonction f(n) est la plus co${\hat{u}}$teuse et dont il existe au moins un nœuds voisins pouvant encore ${\hat{e}}$tre d\'evelopp\'es jusqu\textquoteright \`a atteindre l\textquoteright objectif. \\
 
 \tab 4. Le tester sur le petit graphe de la figure 1 et montrer l\textquoteright ordre d\textquoteright exploration des nœuds. \\
 
@@ -111,13 +111,13 @@ Pour chaque tour, on choisit dans notre liste ouverte le nœud n donc la fonctio
     3 & & A(5); B(7); G(8) \\
     \hline
 \end{tabular} \\
-* Au tour 2, le nœud A n'est pas admissible par il n'y a pas de noeud pouvant ${\hat{e}}$tre d\'evelopp\'e apr\`es et que ce n\textquoteright est pas un noeud objectif.\\
+* Au tour 2, le nœud A n\textquoteright est pas admissible par il n\textquoteright y a pas de noeud pouvant ${\hat{e}}$tre d\'evelopp\'e apr\`es et que ce n\textquoteright est pas un noeud objectif.\\
 
 Le Chemin retourn\'e par l\textquoteright algorithme du plus long d\textquoteright abord est : \\
 \tab \tab \tab S ${\rightarrow}$ B ${\rightarrow}$ G\\
 
 
-\section{Jeu à trois joueurs}
+\section{Jeu \`a trois joueurs}
 
 Comment pourrait-on modifier l\textquoteright algorithme minimax pour qu\textquoteright il soit utilisable dans le cas d\textquoteright un jeu \`a information parfaite \`a trois joueurs ? \\
 Par exemple, consid\'erons un jeu \`a trois joueurs nomm\'es 0, 1 et 2 (voir figure 2). On va supposer que la fonction d\textquoteright \'evaluation retourne un triplet de valeurs indiquant l\textquoteright \'evaluation de la position pour les joueurs 0, 1 et 2. Par exemple, le triplet (6, 2, 4) indique que cette position est tr\`es d\'esirable pour le joueur 0, nettement moins pour le joueur 1 et moyennement pour le joueur 2.\\
@@ -126,9 +126,9 @@ Par exemple, consid\'erons un jeu \`a trois joueurs nomm\'es 0, 1 et 2 (voir fig
 
 \begin{tikzpicture}[auto, node distance=3.4cm,semithick, level 1/.style={sibling distance=7.5cm},
 level 2/.style={sibling distance=3.7cm}, level 3/.style={sibling distance=2cm}, level 4/.style={sibling distance=1.3cm}]
-\node (1) {(1 2 3)}
-    child{[draw=red, ->] node [below] {(1 2 3)}
-        child{  node [below] {(1 2 3)}
+\node (1) {\textbf{J0} : (1 2 3)}
+    child{[draw=red, ->] node [below] {\textbf{J1} : (1 2 3)}
+        child{  node [below] {\textbf{J2} : (1 2 3)}
             child{ node [below] {(1 2 3)} 
             } 
             child{ node [below] {(4 2 1)}
@@ -155,7 +155,7 @@ level 2/.style={sibling distance=3.7cm}, level 3/.style={sibling distance=2cm}, 
             }
         }
     };
-\node[below = 10] at (current bounding box.south) {Figure 2 – Les trois premiers coups d’un jeu à trois joueurs.};
+\node[below = 10] at (current bounding box.south) {Figure 2 – Les trois premiers coups d\textquoteright un jeu \`a trois joueurs.};
 \end{tikzpicture} \\ [5mm]
 
 2. R\'e-\'ecrire le programme MinMax pour qu\textquoteright il joue correctement sur ce type d\textquoteright arbre. \\
@@ -165,12 +165,12 @@ Algorithmes de remont\'ee des \'etiquettes num\'eriques : \\
 \tab \tab - Si J1 : Max des valeurs pour la position 1 dans les triplets des successeurs.\\
 \tab \tab - Si J2 : Max des valeurs pour la position 2 dans les triplets des successeurs.\\
 
-G\'en\'eralisation pour du programme MinMax pour ce type de jeu : \\
+G\'en\'eralisation du programme MinMax pour ce type de jeu : \\
 - Soit n joueurs : Si Ji : Max des valeurs pour la position i dans les n-uplets des successeurs.\\
 
 Dans le cas o\`u les valeurs \`a la position i dans les n-uplets des succeurs pour un joueur i sont identiques, on pourrait rajouter dans notre algortihme la r\`egle suvante : \\
-- Ji cherche \`a minimiser la somme total du gain de ses adversaires dans le cas d'une \'egalit\'es des valeurs \`a la position i du n-uplet. \\
+- Ji cherche \`a minimiser la somme total du gain de ses adversaires dans le cas d\textquoteright une \'egalit\'es des valeurs \`a la position i du n-uplet. \\
 
-Mais l\textquoteright objectif d\textquoteright un jeu ne doit pas n\'ecessairement de faire perdre le plus possible ses adversaires... \\
+Mais l\textquoteright objectif d\textquoteright un jeu ne doit pas n\'ecessairement de faire perdre le plus possible ses adversaires... surtout s\textquoteright il y a plusieur parties (apr\`es on risque de rentrer dans une notion de dilemme du prisionnier).
 
 \end{document}
