@@ -70,30 +70,75 @@ Prouvez que l\textquoteright algorithme A${^*}$ retourne un chemin de co${\hat{u
 
 Supposons un chemin optimal C${^*}$ mais que notre algorithme retourne C > C${^*}$. Quelque soit C, on est n\'ecessairement pass\'e par un nœud optimal. \\
 
-On aurait donc : \tab \tab  \;  \;  \; f(n) ${>}$ C${^*}$ \\
-\tab Par d\'efinition : \tab \tab \tab f(n) = g(n) + h(n) \\
-\tab n sur le chemin optimal : \tab \, f(n) = g${^*}$(n) + h(n) \\
-\tab h(n) admissible :  \tab \tab \; \; \, f(n) ${\le}$ g${^*}$(n) + h${^*}$(n) \\
-\tab Contradiction : \tab \tab \tab f(n) ${\le}$ C${^*}$(n) \\
+\tab \tab On aurait donc : \tab \tab  \;  \;  \; f(n) ${>}$ C${^*}$ \\
+\tab \tab \tab Par d\'efinition : \tab \tab \tab f(n) = g(n) + h(n) \\
+\tab \tab \tab n sur le chemin optimal : \tab \, f(n) = g${^*}$(n) + h(n) \\
+\tab \tab \tab h(n) admissible :  \tab \tab \; \; \, f(n) ${\le}$ g${^*}$(n) + h${^*}$(n) \\
+\tab \tab \tab Contradiction : \tab \tab \tab f(n) ${\le}$ C${^*}$(n) \\
 
 Donc si f(n) est plus faible en co${\hat{u}}$t que f${^*}$(n), f${^*}$(n) ne sera jamais explor\'e car non-optimal. h(n) admissible retourne donc n\'ecessairement le chemin optimal.
 
 \section{Transformation de A${^*}$ pour trouver un chemin le plus long}
 
-L\textquoteright algorithme A${^*}$  permet de trouver un plus court chemin dans un graphe. On va chercher ici
-comment le transformer pour qu\textquoteright il permette de trouver un plus long chemin. \\
+L\textquoteright algorithme A${^*}$  permet de trouver un plus court chemin dans un graphe. On va chercher ici comment le transformer pour qu\textquoteright il permette de trouver un plus long chemin. \\
 
 1. Que se passe-t-il si on n\textquoteright utilise pas de fonction heuristique ? \\
 
-Si on n\textquoteright utilise pas de fonction heuristique, on a un risque de ne trouver aucun chemin jusqu\textquoteright au nœud objectif et de boucler infiniement.\\ 
+Si on n\textquoteright utilise pas de fonction heuristique, on se retrouve sur une recherche non inform\'ee. On peut n\'eanmoins trouver le meilleur chemin avec un algorithme de co${\hat(u}$t uniforme, largeur d\textquoteright abord ou profondeur it\'erative mais la compl\'exit\'e en temps et en espace sera plus lourd. (Nombre de nœuds d\'evellop\'es et en m\'emoire augmente). \\
 
 \tab 2. Quelle doit ${\hat{e}}$tre la propri\'et\'e d\textquoteright une fonction heuristique pour que le chemin retourn\'e soit un plus long chemin ? \\
 
-La fonction heuristique doit n\'ecessairemet  ${\hat{e}}$tre admissible pour trouver un chemin valide. \\
+On peut adapter la propri\'et\'e h(n) ${\leq}$ h${^*}$(n) pour s\'electionner le chemin le plus long, tel que h${^*}$(n) 
+\begin{center}
+    ${\forall}$ n${_1}$, n${_2}$, h(n${_1}$) ${\geq}$ h(n${_2}$) \\
+\end{center}
+
+On obtient donc : \\
+
+\begin{center}
+\begin{tikzpicture}[auto, node distance=3cm,semithick, main/.style = {draw, circle}]
+\node[main] (1) {A: 6}; 
+\node[main] (2) [right of=1] {B: 4}; 
+\node[main] (3) [right of=2] {C: 1}; 
+\node[main] (4) [above right of=1] {S: 8}; 
+\node[main] (5) [below right of=2] {G: 0}; 
+\node[below = 10] at (current bounding box.south) {Figure 2 – Graphe adapt\'e};
+\path [-]  (1) edge node {2} (2);
+\path [-]  (2) edge node {2} (3);
+\path [-]  (1) edge node {1} (4);
+\path [-]  (4) edge node {4} (2);
+\path [-]  (2) edge node {4} (5);
+\path [-]  (5) edge node[right] {1} (3);
+\end{tikzpicture} \\ [5mm]
+\end{center}
 
 \tab 3. Donner l\textquoteright algorithme retournant un plus long chemin. \\
 
 Pour chaque tour, on choisit dans notre liste ouverte le nœud n donc la fonction f(n) est la plus co${\hat{u}}$teuse et dont il existe au moins un nœuds voisins pouvant encore ${\hat{e}}$tre d\'evelopp\'es jusqu\textquoteright \`a atteindre l\textquoteright objectif. \\
+
+\begin{algorithm}[ht!]
+\dontprintsemicolon
+%\begin{small}
+OUVERT ${\leftarrow}$ {état initial}; FERME ${\leftarrow}$ ${\varnothing}$ ; Succès ${\leftarrow}$ Faux\;
+\While{ OUVERT ${\neq}$ ${\varnothing}$ et Succ\`es = Faux} {
+    \underline{Etape 1} :  Calculer les f(n) des noeuds ouverts\;
+    \underline{Etape 2} :  S\'election noeud n avec f(n) max parmis les noeuds ouverts \;
+        \eSi {noeud choisi n = objectif}  {
+        \hspace{1cm}        Succ\`es = vrai \;
+        \hspace{1cm}        ajouter noeud n à FERMER \;
+        \hspace{1cm}        retourner FERMER \;
+        }
+        {
+        \hspace{1cm}        ajouter noeud n à FERMER \;
+        \hspace{1cm}        noeud parent = noeud n \;
+        \hspace{1cm}        ajouter noeuds enfants ayant encore un noeud voisin ouvert de noeud n à OUVERT \;
+        }
+}
+\caption{{\bf algorithme d\textquoteright un chemin le plus long}
+\index{algorithme d\textquoteright un chemin le plus long}}
+\label{algo:elim:cand}
+%\end{small}
+\end{algorithm}
 
 \tab 4. Le tester sur le petit graphe de la figure 1 et montrer l\textquoteright ordre d\textquoteright exploration des nœuds. \\
 
@@ -102,13 +147,13 @@ Pour chaque tour, on choisit dans notre liste ouverte le nœud n donc la fonctio
     Tour & Ouvert & Ferm\'e  \\
     \hline
     \hline
-    0 & S(0 + 5) & \\
+    0 & S(0 + 8) & \\
     \hline
-    1 & A(1 + 4); B(4 + 3) & S(5)\\
+    1 & A(1 + 6); B(4 + 4) & S(8)\\
     \hline
-    2 & G(8 + 0); C(6 + 1); A(1 + 4) par S; A(6 + 4) par B *& S(5); B(7)\\
+    2 & G(8 + 0); C(6 + 1); A(1 + 6) par S; A(6 + 6) par B* & S(8); B(8)\\
     \hline
-    3 & & A(5); B(7); G(8) \\
+    3 & & A(8); B(8); G(8) \\
     \hline
 \end{tabular} \\
 * Au tour 2, le nœud A n\textquoteright est pas admissible par il n\textquoteright y a pas de noeud pouvant ${\hat{e}}$tre d\'evelopp\'e apr\`es et que ce n\textquoteright est pas un noeud objectif.\\
@@ -166,11 +211,12 @@ Algorithmes de remont\'ee des \'etiquettes num\'eriques : \\
 \tab \tab - Si J2 : Max des valeurs pour la position 2 dans les triplets des successeurs.\\
 
 G\'en\'eralisation du programme MinMax pour ce type de jeu : \\
-- Soit n joueurs : Si Ji : Max des valeurs pour la position i dans les n-uplets des successeurs.\\
+- Soit n joueurs : Pour Ji : Max des valeurs pour la position i dans les n-uplets des successeurs.\\
 
 Dans le cas o\`u les valeurs \`a la position i dans les n-uplets des succeurs pour un joueur i sont identiques, on pourrait rajouter dans notre algortihme la r\`egle suvante : \\
 - Ji cherche \`a minimiser la somme total du gain de ses adversaires dans le cas d\textquoteright une \'egalit\'es des valeurs \`a la position i du n-uplet. \\
 
-Mais l\textquoteright objectif d\textquoteright un jeu ne doit pas n\'ecessairement de faire perdre le plus possible ses adversaires... surtout s\textquoteright il y a plusieur parties (apr\`es on risque de rentrer dans une notion de dilemme du prisionnier).
+Mais l\textquoteright objectif d\textquoteright un jeu ne doit pas n\'ecessairement de faire perdre le plus possible ses adversaires... surtout s\textquoteright il y a plusieur parties.
+
 
 \end{document}
